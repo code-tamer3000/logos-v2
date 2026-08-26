@@ -1,0 +1,75 @@
+.ph {
+  position: relative;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--light-06);
+  border-radius: 4px;
+  background:
+    radial-gradient(120% 80% at 50% 110%, rgba(240, 232, 208, 0.07), transparent 60%),
+    linear-gradient(180deg, #101013, #0a0a0c);
+}
+
+.ph--round {
+  border-radius: 50%;
+}
+
+/* Тонкая диагональная штриховка — читается как «здесь будет картинка» */
+.ph__grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(250, 250, 250, 0.028) 0 1px,
+    transparent 1px 11px
+  );
+}
+
+.ph__glow {
+  position: absolute;
+  bottom: -35%;
+  left: 50%;
+  width: 70%;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240, 232, 208, 0.11), transparent 65%);
+  filter: blur(28px);
+}
+
+.ph__body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: 24ch;
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.ph__icon {
+  width: 26px;
+  height: 26px;
+  color: var(--flare);
+  opacity: 0.55;
+}
+
+.ph__label {
+  font-size: 0.688rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  line-height: 1.6;
+  text-transform: uppercase;
+  color: rgba(250, 250, 250, 0.62);
+}
+
+.ph__note {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: rgba(161, 161, 170, 0.65);
+}

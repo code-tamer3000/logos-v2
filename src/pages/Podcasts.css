@@ -1,0 +1,84 @@
+/* ── Свежий выпуск ─────────────────────────────────────────── */
+.latest__head {
+  margin-bottom: 1.75rem;
+}
+
+.latest__badge {
+  display: inline-block;
+  padding: 0.35em 0.85em;
+  border: 1px solid var(--flare-14);
+  border-radius: 99px;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--flare);
+}
+
+.latest__title {
+  margin-top: 1.25rem;
+  max-width: 24ch;
+}
+
+/* ── Список выпусков ───────────────────────────────────────── */
+.epList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ── Платформы ─────────────────────────────────────────────── */
+.platforms {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  gap: 1rem;
+}
+
+.platform {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.4rem 1.6rem;
+}
+
+.platform__label {
+  font-size: 0.938rem;
+  color: var(--light);
+}
+
+.platform__arrow {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  color: var(--muted);
+  transition:
+    transform 0.45s var(--ease),
+    color 0.45s var(--ease);
+}
+
+.platform:hover .platform__arrow {
+  transform: translate(2px, -2px);
+  color: var(--flare);
+}
+
+.pageHead__count {
+  margin-top: 1.5rem;
+  font-size: 0.688rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(161, 161, 170, 0.7);
+}
+
+.latest__meta {
+  margin-top: 0.9rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--flare);
+}
+
+.latest__note {
+  max-width: 62ch;
+  margin-top: 1rem;
+  font-size: 0.938rem;
+}

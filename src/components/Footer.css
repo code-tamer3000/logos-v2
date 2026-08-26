@@ -1,0 +1,139 @@
+.ftr {
+  position: relative;
+  overflow: hidden;
+  padding-top: clamp(4rem, 9vw, 7rem);
+  border-top: 1px solid var(--light-06);
+  background: var(--void-deep);
+}
+
+/* Свет за горизонтом — рифма с хиро */
+.ftr__horizon {
+  position: absolute;
+  bottom: -60%;
+  left: 50%;
+  width: min(1100px, 130%);
+  aspect-ratio: 2 / 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240, 232, 208, 0.13), transparent 62%);
+  filter: blur(50px);
+  pointer-events: none;
+}
+
+.ftr__inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr);
+  gap: clamp(2.5rem, 6vw, 5rem);
+}
+
+.ftr__mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: var(--light);
+}
+
+.ftr__glyph {
+  width: 30px;
+  height: 30px;
+  color: var(--flare);
+}
+
+.ftr__word {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
+  text-transform: uppercase;
+}
+
+.ftr__claim {
+  margin-top: 1.25rem;
+  font-size: 1.35rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.ftr__social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.ftr__social a {
+  font-size: 0.688rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.35s var(--ease);
+}
+
+.ftr__social a:hover {
+  color: var(--flare);
+}
+
+.ftr__cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: clamp(1.75rem, 4vw, 3rem);
+}
+
+.ftr__colTitle {
+  margin-bottom: 1.1rem;
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(250, 250, 250, 0.45);
+}
+
+.ftr__col ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.ftr__col a {
+  font-size: 0.875rem;
+  color: var(--muted);
+  transition: color 0.35s var(--ease);
+}
+
+.ftr__col a:hover {
+  color: var(--light);
+}
+
+.ftr__base {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: clamp(3rem, 7vw, 5rem);
+  padding-block: 1.75rem;
+  border-top: 1px solid var(--light-06);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: rgba(161, 161, 170, 0.7);
+}
+
+.ftr__contact {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--flare);
+  transition: opacity 0.35s var(--ease);
+}
+
+.ftr__contact:hover {
+  opacity: 0.7;
+}
+
+@media (max-width: 800px) {
+  .ftr__inner {
+    grid-template-columns: 1fr;
+  }
+}

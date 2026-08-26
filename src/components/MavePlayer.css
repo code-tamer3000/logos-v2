@@ -1,0 +1,84 @@
+.mave {
+  width: 100%;
+  border: 1px solid var(--glass-stroke);
+  border-radius: 6px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  overflow: hidden;
+}
+
+.mave iframe {
+  display: block;
+  border: 0;
+}
+
+/* ── Превью до загрузки стороннего плеера ──────────────────── */
+.mave--facade {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  min-height: 96px;
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+  transition:
+    border-color 0.45s var(--ease),
+    background 0.45s var(--ease);
+}
+
+.mave--facade:hover {
+  border-color: var(--light-16);
+  background: rgba(255, 255, 255, 0.075);
+}
+
+.mave__play {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  flex: none;
+  padding-left: 3px;
+  border: 1px solid var(--light-16);
+  border-radius: 50%;
+  color: var(--light);
+  transition:
+    border-color 0.45s var(--ease),
+    background 0.45s var(--ease),
+    color 0.45s var(--ease);
+}
+
+.mave--facade:hover .mave__play {
+  border-color: var(--flare);
+  background: var(--flare-08);
+  color: var(--flare);
+}
+
+.mave__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.mave__title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1.25;
+  color: var(--light);
+}
+
+.mave__meta {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: rgba(161, 161, 170, 0.75);
+}
+
+.mave__brand {
+  flex: none;
+  align-self: flex-start;
+  font-size: 0.563rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(161, 161, 170, 0.45);
+}

@@ -1,0 +1,70 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  padding: 0.95em 1.7em;
+  border-radius: 99px;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    background 0.4s var(--ease),
+    color 0.4s var(--ease),
+    border-color 0.4s var(--ease),
+    box-shadow 0.4s var(--ease),
+    transform 0.4s var(--ease);
+}
+
+.btn__arrow {
+  width: 0.95em;
+  height: 0.95em;
+  flex: none;
+  transition: transform 0.4s var(--ease);
+}
+
+.btn:hover .btn__arrow {
+  transform: translateX(3px);
+}
+
+/* Тёплый свет — главный CTA */
+.btn--solid {
+  background: var(--sunstone);
+  color: var(--void);
+  box-shadow: 0 0 0 rgba(240, 232, 208, 0);
+}
+
+.btn--solid:hover {
+  background: #fff8ec;
+  box-shadow: 0 0 32px rgba(240, 232, 208, 0.28);
+  transform: translateY(-1px);
+}
+
+/* Стекло — вторичный */
+.btn--ghost {
+  border: 1px solid var(--light-16);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  color: var(--light);
+}
+
+.btn--ghost:hover {
+  border-color: var(--flare-30);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--flare);
+}
+
+/* Текстовая ссылка с подчёркиванием */
+.btn--quiet {
+  padding: 0.4em 0;
+  border-bottom: 1px solid var(--light-16);
+  border-radius: 0;
+  color: var(--muted);
+}
+
+.btn--quiet:hover {
+  border-color: var(--flare);
+  color: var(--flare);
+}

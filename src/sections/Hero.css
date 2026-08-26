@@ -1,0 +1,193 @@
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  padding-top: 7rem;
+  padding-bottom: 8rem;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ── Видео-подложка ───────────────────────────────────────── */
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--void);
+}
+
+.hero__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.06);
+  transition:
+    opacity 1.8s var(--ease),
+    transform 14s linear;
+}
+
+.hero__video.is-ready {
+  opacity: 0.55;
+  transform: scale(1);
+}
+
+/* Затемнение: снизу — почти чёрный, чтобы текст лёг чисто */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(9, 9, 11, 0.82) 0%, rgba(9, 9, 11, 0.42) 32%, rgba(9, 9, 11, 0.94) 92%),
+    linear-gradient(90deg, rgba(9, 9, 11, 0.75) 0%, transparent 55%);
+}
+
+/* Тёплый источник света — как в референсах */
+.hero__sun {
+  position: absolute;
+  top: 26%;
+  right: 8%;
+  width: min(680px, 62vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(245, 234, 221, 0.3) 0%,
+    rgba(240, 232, 208, 0.13) 32%,
+    transparent 66%
+  );
+  filter: blur(42px);
+  animation: heroBreath 11s ease-in-out infinite;
+}
+
+@keyframes heroBreath {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.07);
+  }
+}
+
+.hero__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 50% 45%, transparent 40%, rgba(9, 9, 11, 0.85) 100%);
+}
+
+/* ── Контент ──────────────────────────────────────────────── */
+.hero__inner {
+  position: relative;
+  max-width: calc(var(--shell) + 0px);
+}
+
+.hero__eyebrow {
+  margin-bottom: 2rem;
+  color: rgba(250, 250, 250, 0.62);
+  animation: heroIn 1.2s var(--ease) both;
+  animation-delay: 0.15s;
+}
+
+.hero__title {
+  max-width: 17ch;
+  animation: heroIn 1.2s var(--ease) both;
+  animation-delay: 0.3s;
+}
+
+.hero__lede {
+  max-width: 48ch;
+  margin-top: 2rem;
+  color: rgba(250, 250, 250, 0.72);
+  animation: heroIn 1.2s var(--ease) both;
+  animation-delay: 0.45s;
+}
+
+.hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 2.75rem;
+  animation: heroIn 1.2s var(--ease) both;
+  animation-delay: 0.6s;
+}
+
+@keyframes heroIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Индикатор скролла ────────────────────────────────────── */
+.hero__scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  transform: translateX(-50%);
+  color: var(--muted);
+  animation: heroIn 1.2s var(--ease) both;
+  animation-delay: 1s;
+  transition: color 0.4s var(--ease);
+}
+
+.hero__scroll:hover {
+  color: var(--flare);
+}
+
+.hero__scrollWord {
+  font-size: 0.625rem;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  text-transform: uppercase;
+}
+
+.hero__scrollLine {
+  position: relative;
+  width: 1px;
+  height: 52px;
+  overflow: hidden;
+  background: var(--light-10);
+}
+
+.hero__scrollLine::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 40%;
+  background: var(--flare);
+  animation: scrollTrace 2.4s var(--ease) infinite;
+}
+
+@keyframes scrollTrace {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(250%);
+  }
+}
+
+@media (max-width: 700px) {
+  .hero {
+    padding-top: 6rem;
+    padding-bottom: 7rem;
+  }
+  .hero__title {
+    max-width: 100%;
+  }
+  .hero__scroll {
+    display: none;
+  }
+}

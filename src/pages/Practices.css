@@ -1,0 +1,117 @@
+/* ── Симптомы ──────────────────────────────────────────────── */
+.symptoms {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 1px;
+  border: 1px solid var(--light-06);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--light-06);
+}
+
+.symptoms li {
+  display: flex;
+  gap: 1rem;
+  padding: clamp(1.5rem, 2.6vw, 2.15rem);
+  background: var(--void);
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: rgba(250, 250, 250, 0.86);
+}
+
+.symptoms__mark {
+  flex: none;
+  font-size: 0.75rem;
+  line-height: 2;
+  color: var(--flare);
+  opacity: 0.8;
+}
+
+/* ── Двухколоночный текстовый блок ─────────────────────────── */
+.insight {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
+}
+
+@media (max-width: 850px) {
+  .insight {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Программа по неделям ──────────────────────────────────── */
+.weeks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--light-06);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--light-06);
+}
+
+.week {
+  padding: clamp(1.5rem, 2.6vw, 2.1rem);
+  background: var(--void);
+  transition: background 0.5s var(--ease);
+}
+
+.week:hover {
+  background: #101014;
+}
+
+.week__n {
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--flare);
+}
+
+.week__title {
+  margin-top: 1rem;
+  font-size: 1.35rem;
+  line-height: 1.25;
+}
+
+.week__note {
+  margin-top: 0.6rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* ── Форматы ───────────────────────────────────────────────── */
+.formats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: 1.25rem;
+}
+
+.tiers {
+  margin-top: 2rem;
+  border-top: 1px solid var(--light-06);
+}
+
+.tiers li {
+  display: flex;
+  gap: 1.5rem;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-block: 0.95rem;
+  border-bottom: 1px solid var(--light-06);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.tiers__price {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--light);
+}
