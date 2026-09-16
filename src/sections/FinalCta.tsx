@@ -1,7 +1,34 @@
 import { useState } from "react";
 import { Button } from "../components/Button";
+import { useContent } from "../content/ContentProvider";
+import { RichText } from "../content/RichText";
+
+type FinalCtaContent = {
+  eyebrow: string;
+  title: string;
+  lede: string;
+  ctaPrimaryLabel: string;
+  ctaSecondaryLabel: string;
+  formPlaceholder: string;
+  formSubmitLabel: string;
+  formSubmitDoneLabel: string;
+  hintDefault: string;
+  hintSent: string;
+};
 
 export function FinalCta() {
+  const {
+    eyebrow,
+    title,
+    lede,
+    ctaPrimaryLabel,
+    ctaSecondaryLabel,
+    formPlaceholder,
+    formSubmitLabel,
+    formSubmitDoneLabel,
+    hintDefault,
+    hintSent,
+  } = useContent<FinalCtaContent>("home.finalCta");
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
 
@@ -9,22 +36,18 @@ export function FinalCta() {
     <section className="section final">
       <div className="final__glow" aria-hidden="true" />
       <div className="shell final__inner">
-        <p className="eyebrow eyebrow--plain reveal">Начать</p>
+        <p className="eyebrow eyebrow--plain reveal">{eyebrow}</p>
 
         <h2 className="h2 final__title reveal" style={{ marginTop: "1.5rem" }}>
-          Первый шаг —<br />
-          <span className="italic-serif accent">бесплатный</span>
+          <RichText text={title} />
         </h2>
 
-        <p className="lede final__lede reveal">
-          Заберите три вводные практики на внимание и решите сами, ваше это или нет. Или напишите
-          мне — начнём с разговора.
-        </p>
+        <p className="lede final__lede reveal">{lede}</p>
 
         <div className="final__cta reveal">
-          <Button to="/practices/free">Три бесплатные практики</Button>
+          <Button href="https://t.me/">{ctaPrimaryLabel}</Button>
           <Button to="/contact" variant="ghost">
-            Написать мне
+            {ctaSecondaryLabel}
           </Button>
         </div>
 
@@ -40,19 +63,15 @@ export function FinalCta() {
             className="final__input"
             type="email"
             required
-            placeholder="Ваш email"
+            placeholder={formPlaceholder}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             aria-label="Email для рассылки"
           />
-          <Button>{sent ? "Готово" : "Подписаться"}</Button>
+          <Button>{sent ? formSubmitDoneLabel : formSubmitLabel}</Button>
         </form>
 
-        <p className="final__hint reveal">
-          {sent
-            ? "Спасибо. Проверьте почту — там ссылка на практики."
-            : "Письма редко и по делу. Отписаться можно в один клик."}
-        </p>
+        <p className="final__hint reveal">{sent ? hintSent : hintDefault}</p>
       </div>
     </section>
   );

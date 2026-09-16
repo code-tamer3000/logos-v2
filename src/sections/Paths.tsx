@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { paths } from "../data/home";
+import { useContent } from "../content/ContentProvider";
 
 const ARROW = (
   <svg viewBox="0 0 16 16" className="path__arrow" aria-hidden="true">
@@ -14,30 +14,45 @@ const ARROW = (
   </svg>
 );
 
+// Маршрут и номер каждой карточки — не редактируются через админку (чтобы правка
+// текста не могла случайно сломать внутреннюю ссылку), сопоставляются по индексу.
+const ROUTES = [
+  { num: "01", to: "/mentoring" },
+  { num: "02", to: "/practices" },
+  { num: "03", to: "/products" },
+  { num: "04", to: "/products" },
+];
+
+type PathsContent = {
+  eyebrow: string;
+  title: string;
+  lede: string;
+  items: { title: string; lede: string; meta: string }[];
+};
+
 export function Paths() {
+  const { eyebrow, title, lede, items } = useContent<PathsContent>("home.paths");
+
   return (
     <section className="section section--hairline">
       <div className="shell">
         <div className="sec__head">
           <div>
-            <p className="eyebrow">Чем я могу помочь</p>
-            <h2 className="h2 sec__title">Три двери в одну работу</h2>
+            <p className="eyebrow">{eyebrow}</p>
+            <h2 className="h2 sec__title">{title}</h2>
           </div>
-          <p className="lede measure-tight">
-            Разные форматы, но общая основа: вернуть себе управление вниманием и построить на нём
-            всё остальное.
-          </p>
+          <p className="lede measure-tight">{lede}</p>
         </div>
 
         <div className="paths">
-          {paths.map((p, i) => (
+          {items.map((p, i) => (
             <Link
-              key={p.num}
-              to={p.to}
+              key={ROUTES[i].num}
+              to={ROUTES[i].to}
               className="path reveal"
               style={{ "--reveal-delay": `${i * 110}ms` } as React.CSSProperties}
             >
-              <span className="path__num">{p.num}</span>
+              <span className="path__num">{ROUTES[i].num}</span>
               <h3 className="path__title">{p.title}</h3>
               <p className="path__lede">{p.lede}</p>
               <div className="path__foot">

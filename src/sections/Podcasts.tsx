@@ -2,21 +2,31 @@ import { Link } from "react-router-dom";
 import { Button } from "../components/Button";
 import { MavePlayer } from "../components/MavePlayer";
 import { MAVE_PODCAST, episodes } from "../data/podcasts";
+import { useContent } from "../content/ContentProvider";
+
+type PodcastsSectionContent = {
+  eyebrow: string;
+  title: string;
+  ledePrefix: string;
+  allEpisodesLabel: string;
+  podcastPageLabel: string;
+};
 
 export function Podcasts() {
+  const { eyebrow, title, ledePrefix, allEpisodesLabel, podcastPageLabel } =
+    useContent<PodcastsSectionContent>("home.podcastsSection");
   const [latest, ...rest] = episodes;
 
   return (
     <section className="section section--hairline">
       <div className="shell">
-        <div className="sec__head">
+        <div className="sec__head sec__head--stack">
           <div>
-            <p className="eyebrow">Подкаст</p>
-            <h2 className="h2 sec__title">О духовном субъективно</h2>
+            <p className="eyebrow">{eyebrow}</p>
+            <h2 className="h2 sec__title">{title}</h2>
           </div>
           <p className="lede measure-tight">
-            Исследование мировых духовных традиций: ментальное здоровье, развитие психических
-            возможностей и духовно-нравственный рост. Уже {episodes.length} выпуск
+            {ledePrefix} {episodes.length} выпуск
             {episodes.length % 10 === 1 ? "" : "ов"}.
           </p>
         </div>
@@ -56,10 +66,10 @@ export function Podcasts() {
 
         <div style={{ marginTop: "3rem", display: "flex", gap: "1.75rem", flexWrap: "wrap" }}>
           <Button to="/podcasts" variant="quiet">
-            Все выпуски
+            {allEpisodesLabel}
           </Button>
           <Button href="https://k-logos.mave.digital/" variant="quiet">
-            Страница подкаста
+            {podcastPageLabel}
           </Button>
         </div>
       </div>
