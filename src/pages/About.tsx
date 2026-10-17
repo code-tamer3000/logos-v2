@@ -1,67 +1,58 @@
 import { Page } from "./Page";
 import { Placeholder } from "../components/Placeholder";
+import { useContent } from "../content/ContentProvider";
+import { RichText } from "../content/RichText";
+import { ImageSlot } from "../content/ImageSlot";
 
-const FIELDS = [
-  {
-    title: "Психология сознания",
-    note: "Как устроены внимание и восприятие; что происходит с психикой в изменённых состояниях.",
-  },
-  {
-    title: "Трансперсональный подход",
-    note: "Изучение субъективного опыта с научной серьёзностью — без эзотерики без оснований.",
-  },
-  {
-    title: "Метанавыки внимания",
-    note: "Способность направлять, удерживать и переключать фокус как основа саморегуляции.",
-  },
-  {
-    title: "Трансовые аудио",
-    note: "Авторские ведомые медитации: выстроенный процесс через голос, ритм и образ.",
-  },
-];
+type AboutPageContent = {
+  eyebrow: string;
+  title: string;
+  lede: string;
+  todo: string[];
+  portraitImage?: string;
+  portraitNote: string;
+  positionEyebrow: string;
+  positionTitle: string;
+  positionBody: string;
+  fieldsEyebrow: string;
+  fieldsTitle: string;
+  fields: { title: string; note: string }[];
+};
 
 export default function About() {
+  const {
+    eyebrow,
+    title,
+    lede,
+    todo,
+    portraitImage,
+    portraitNote,
+    positionEyebrow,
+    positionTitle,
+    positionBody,
+    fieldsEyebrow,
+    fieldsTitle,
+    fields,
+  } = useContent<AboutPageContent>("page.about");
+
   return (
-    <Page
-      eyebrow="Обо мне"
-      title={
-        <>
-          Исследователь сознания,
-          <br />
-          <span className="italic-serif accent">практик изменённых состояний</span>
-        </>
-      }
-      lede="Проект посвящён развитию сознания и приобретению ментальных навыков. Это не про целительство и не про поиск гуру — это про то, чтобы вырасти, расширить себя, обрести опору и открыть в себе заложенные силы."
-      todo={[
-        "Краткая биография по годам — из духовной биографии",
-        "Знаковые кейсы проектов (можно без названий, с цифрами)",
-        "Сертификаты и обучение: MBSR, йога-нидра, коучинг",
-        "Видео-обращение автора и фото с занятий",
-      ]}
-    >
+    <Page eyebrow={eyebrow} title={<RichText text={title} />} lede={lede} todo={todo}>
       <section className="section section--hairline">
         <div className="shell about__grid">
           <div className="about__portrait reveal">
-            <Placeholder
-              label="Портрет автора"
-              note="Крупный план, тёплый контровой свет"
-              ratio="4 / 5"
+            <ImageSlot
+              src={portraitImage}
+              alt="Портрет автора"
+              fallback={<Placeholder label="Портрет автора" note={portraitNote} ratio="4 / 5" />}
             />
           </div>
 
           <div className="reveal" style={{ "--reveal-delay": "120ms" } as React.CSSProperties}>
-            <p className="eyebrow">Позиция</p>
-            <h2 className="h2 sec__title">Изучаю сознание — передаю карту</h2>
-            <p className="lede measure" style={{ marginTop: "2rem" }}>
-              Не образ всепринимающего гуру, который всегда спокоен. Скорее духовный учёный: тот,
-              кто докапывается до сути, проверяет разные подходы, адаптирует древние знания к
-              современному миру и обучает этому людей.
-            </p>
-            <p className="lede measure" style={{ marginTop: "1.5rem" }}>
-              Подход для тех, кто устал от поверхностной эзотерики и хочет чего-то большего. Цена
-              здесь не всегда финансовая — она в готовности заплатить усердием, временем и
-              решимостью пойти в глубину.
-            </p>
+            <p className="eyebrow">{positionEyebrow}</p>
+            <h2 className="h2 sec__title">{positionTitle}</h2>
+            <div style={{ marginTop: "2rem" }}>
+              <RichText text={positionBody} paragraphClassName="lede measure" />
+            </div>
           </div>
         </div>
       </section>
@@ -70,12 +61,12 @@ export default function About() {
         <div className="shell">
           <div className="sec__head">
             <div>
-              <p className="eyebrow">Сферы исследований</p>
-              <h2 className="h2 sec__title">Чем я занимаюсь</h2>
+              <p className="eyebrow">{fieldsEyebrow}</p>
+              <h2 className="h2 sec__title">{fieldsTitle}</h2>
             </div>
           </div>
           <div className="shop">
-            {FIELDS.map((f, i) => (
+            {fields.map((f, i) => (
               <article
                 key={f.title}
                 className="card reveal"

@@ -1,40 +1,37 @@
 import { Page } from "./Page";
 import { Button } from "../components/Button";
+import { useContent } from "../content/ContentProvider";
+import { RichText } from "../content/RichText";
 
-const BRANCHES = [
-  {
-    status: "Разовая сессия",
-    title: "Одна встреча",
-    lede: "Подходит, когда есть конкретный запрос или развилка, и нужно посмотреть на неё под другим углом. Работаем 90 минут, результат — ясность и следующий шаг.",
-    price: "По договорённости",
-  },
-  {
-    status: "Сопровождение",
-    title: "Длительная работа",
-    lede: "Регулярные встречи на протяжении нескольких месяцев: своя практика, свой темп, разбор того, что происходит между сессиями. Для тех, кто идёт глубоко.",
-    price: "По договорённости",
-  },
-];
+type MentoringContent = {
+  eyebrow: string;
+  title: string;
+  lede: string;
+  todo: string[];
+  branches: { status: string; title: string; lede: string; price: string }[];
+  orderEyebrow: string;
+  orderTitle: string;
+  orderBody: string;
+  orderQuote: string;
+  orderCtaLabel: string;
+};
 
 export default function Mentoring() {
+  const {
+    eyebrow,
+    title,
+    lede,
+    todo,
+    branches: BRANCHES,
+    orderEyebrow,
+    orderTitle,
+    orderBody,
+    orderQuote,
+    orderCtaLabel,
+  } = useContent<MentoringContent>("page.mentoring");
+
   return (
-    <Page
-      eyebrow="Наставничество"
-      title={
-        <>
-          Сначала разговор,
-          <br />
-          <span className="italic-serif accent">потом решение</span>
-        </>
-      }
-      lede="Здесь нет кнопки «Купить». Индивидуальная работа начинается с диалога: я должен понять ваш запрос, а вы — понять, подходит ли вам мой подход."
-      todo={[
-        "Общее описание подхода: как именно строится работа",
-        "Детали разовой сессии: длительность, формат, для какого запроса",
-        "Детали сопровождения: срок, ритм встреч, что входит",
-        "Цены и порядок оплаты после согласования",
-      ]}
-    >
+    <Page eyebrow={eyebrow} title={<RichText text={title} />} lede={lede} todo={todo}>
       <section className="section section--hairline">
         <div className="shell">
           <div className="shop">
@@ -61,18 +58,16 @@ export default function Mentoring() {
       <section className="section section--hairline">
         <div className="shell">
           <div className="reveal" style={{ maxWidth: "70ch" }}>
-            <p className="eyebrow">О порядке работы</p>
-            <h2 className="h2 sec__title">Я берусь не за каждый запрос</h2>
+            <p className="eyebrow">{orderEyebrow}</p>
+            <h2 className="h2 sec__title">{orderTitle}</h2>
             <p className="lede" style={{ marginTop: "2rem" }}>
-              Исходя из этических соображений и личных принципов, я берусь работать далеко не с
-              каждым человеком. Я не работаю с теми, кто ждёт «волшебной таблетки» и не готов брать
-              на себя ответственность.
+              {orderBody}
             </p>
             <p className="lede italic-serif" style={{ marginTop: "1.5rem", fontSize: "1.35rem" }}>
-              Каждый человек имеет ту действительность, которая соответствует его уровню сознания.
+              {orderQuote}
             </p>
             <div style={{ marginTop: "2.5rem" }}>
-              <Button to="/contact">Оставить заявку</Button>
+              <Button to="/contact">{orderCtaLabel}</Button>
             </div>
           </div>
         </div>

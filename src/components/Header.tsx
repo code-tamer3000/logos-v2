@@ -1,21 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { useContent } from "../content/ContentProvider";
 import "./Header.css";
 
-/** По ТЗ: логотип по центру, разделы по бокам, без контактов. */
-const LEFT = [
-  { to: "/about", label: "Обо мне" },
-  { to: "/mentoring", label: "Наставничество" },
-  { to: "/practices", label: "Практики" },
-];
-
-const RIGHT = [
-  { to: "/library", label: "Библиотека" },
-  { to: "/blog", label: "Блог" },
-  { to: "/podcasts", label: "Подкасты" },
-];
+type NavItem = { to: string; label: string };
+type HeaderContent = { leftNav: NavItem[]; rightNav: NavItem[]; contactLabel: string };
 
 export function Header() {
+  const { leftNav: LEFT, rightNav: RIGHT, contactLabel } = useContent<HeaderContent>("header");
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
@@ -84,7 +76,7 @@ export function Header() {
             </NavLink>
           ))}
           <NavLink to="/contact" className="hdr__sheetLink">
-            Контакты
+            {contactLabel}
           </NavLink>
         </nav>
       </div>

@@ -1,27 +1,37 @@
 import { Link } from "react-router-dom";
 import { Button } from "../components/Button";
-import { library } from "../data/home";
+import { useContent } from "../content/ContentProvider";
+
+// Маршрут каждой карточки не редактируется через админку, сопоставляется по индексу.
+const ROUTES = ["/blog", "/library", "/podcasts", "/library"];
+
+type LibraryContent = {
+  eyebrow: string;
+  title: string;
+  lede: string;
+  ctaLabel: string;
+  items: { kind: string; title: string; meta: string }[];
+};
 
 export function Library() {
+  const { eyebrow, title, lede, ctaLabel, items } = useContent<LibraryContent>("home.library");
+
   return (
     <section className="section section--hairline">
       <div className="shell">
         <div className="sec__head">
           <div>
-            <p className="eyebrow">Библиотека знаний</p>
-            <h2 className="h2 sec__title">Начать можно бесплатно</h2>
+            <p className="eyebrow">{eyebrow}</p>
+            <h2 className="h2 sec__title">{title}</h2>
           </div>
-          <p className="lede measure-tight">
-            Статьи, практики, подкасты и видео — растущее хранилище. Часть открыта всем, часть
-            прикреплена к продуктам и появляется в личном кабинете после покупки.
-          </p>
+          <p className="lede measure-tight">{lede}</p>
         </div>
 
         <div className="lib">
-          {library.map((item, i) => (
+          {items.map((item, i) => (
             <Link
               key={item.title}
-              to={item.to}
+              to={ROUTES[i]}
               className="card libCard reveal"
               style={{ "--reveal-delay": `${i * 90}ms` } as React.CSSProperties}
             >
@@ -34,7 +44,7 @@ export function Library() {
 
         <div style={{ marginTop: "3rem" }}>
           <Button to="/library" variant="quiet">
-            Вся библиотека
+            {ctaLabel}
           </Button>
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
@@ -18,10 +19,12 @@ import {
   ProductsPage,
 } from "./pages/Simple";
 
-export default function App() {
+// Отдельный чанк, не попадает в бандл публичного сайта; вне публичного меню.
+const AdminApp = lazy(() => import("./admin/AdminApp").then((m) => ({ default: m.AdminApp })));
+
+function SiteLayout() {
   return (
     <>
-      <ScrollToTop />
       <Header />
       <main>
         <Routes>
@@ -36,22 +39,32 @@ export default function App() {
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/contact" element={<Contact />} />
-          <Route
-            path="/offer"
-            element={<LegalPage eyebrow="Документы" title="Публичная оферта" />}
-          />
-          <Route
-            path="/privacy"
-            element={<LegalPage eyebrow="Документы" title="Политика конфиденциальности" />}
-          />
-          <Route
-            path="/consent"
-            element={<LegalPage eyebrow="Документы" title="Согласие на обработку ПД" />}
-          />
+          <Route path="/offer" element={<LegalPage variant="offer" />} />
+          <Route path="/privacy" element={<LegalPage variant="privacy" />} />
+          <Route path="/consent" element={<LegalPage variant="consent" />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
       <Footer />
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route
+          path="/admin/*"
+          element={
+            <Suspense fallback={null}>
+              <AdminApp />
+            </Suspense>
+          }
+        />
+        <Route path="/*" element={<SiteLayout />} />
+      </Routes>
     </>
   );
 }

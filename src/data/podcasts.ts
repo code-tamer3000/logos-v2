@@ -14,30 +14,8 @@ export const MAVE_PODCAST = "k-logos";
 /** Плейлист-эмбед: показывает все выпуски и обновляется сам */
 export const MAVE_PLAYLIST = true;
 
-export const PODCAST = {
-  title: "О духовном субъективно",
-  author: "Константин Логос",
-  description:
-    "Подкаст посвящён исследованию мировых духовных традиций. Вопросы ментального и эмоционального здоровья, развития психических возможностей человека и духовно-нравственного роста.",
-  url: "https://k-logos.mave.digital/",
-};
-
-export const PLATFORMS = [
-  { label: "Яндекс Музыка", href: "https://music.yandex.ru/album/39224388?activeTab=about" },
-  { label: "Spotify", href: "https://open.spotify.com/show/38W0NV6A5GMOrERWqWOA6i" },
-  {
-    label: "Apple Podcasts",
-    href: "https://podcasts.apple.com/ru/podcast/id1853944292",
-  },
-  {
-    label: "YouTube",
-    href: "https://www.youtube.com/playlist?list=PLo7sae2Pozoe1ACd98uNYyBrm-z1IM7gn",
-  },
-  { label: "ВКонтакте", href: "https://vk.com/podcast-83103882_456239018" },
-  { label: "Звук", href: "https://zvuk.com/podcast/48299883" },
-  { label: "Castbox", href: "https://castbox.fm/vic/1853944292" },
-  { label: "Литрес", href: "https://www.litres.ru/podcast/konstantin-logos/o-duhovnom-subektivno-73293368/" },
-];
+// Название/описание подкаста и список площадок теперь редактируются через админку
+// (см. content/defaults.json → "page.podcasts"), а не хранятся здесь.
 
 export type Episode = {
   episode: number;

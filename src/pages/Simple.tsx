@@ -1,143 +1,52 @@
 import { Page } from "./Page";
+import { useContent } from "../content/ContentProvider";
+import { RichText } from "../content/RichText";
 
-/** Разделы, где структура заложена, а контент ещё собирается (см. ТЗ, «где не хватает текста»). */
+type SimplePageContent = { eyebrow: string; title: string; lede: string; todo?: string[] };
+type LegalBlock = { eyebrow: string; title: string };
+type LegalContent = {
+  sharedLede: string;
+  sharedTodo: string[];
+  offer: LegalBlock;
+  privacy: LegalBlock;
+  consent: LegalBlock;
+};
+
+/** Разделы, где структура заложена, а контент собирается через админку. */
 
 export function LibraryPage() {
-  return (
-    <Page
-      eyebrow="Библиотека знаний"
-      title={
-        <>
-          Растущее хранилище
-          <br />
-          <span className="italic-serif accent">материалов</span>
-        </>
-      }
-      lede="Статьи, видео, аудио и PDF в одном месте. Бесплатная зона открыта всем — она же лид-магнит. Закрытая зона привязана к продуктам: вы видите то, что относится к купленному вами."
-      todo={[
-        "Наполнение библиотеки: статьи, видео, аудио, PDF",
-        "Универсальная карточка материала с типом контента",
-        "Фильтры: по типу, по продукту, по теме",
-        "Разметка доступа: бесплатно / по продукту / куплено",
-      ]}
-    />
-  );
+  const { eyebrow, title, lede, todo } = useContent<SimplePageContent>("page.simple.library");
+  return <Page eyebrow={eyebrow} title={<RichText text={title} />} lede={lede} todo={todo} />;
 }
 
 export function BlogPage() {
-  return (
-    <Page
-      eyebrow="Блог"
-      title={
-        <>
-          Заметки о внимании
-          <br />
-          <span className="italic-serif accent">и сознании</span>
-        </>
-      }
-      lede="Полезный контент без наукообразности: почему внимание ломается в современной среде и что с этим делать. В конце каждой статьи — бесплатный мини-курс из трёх медитаций."
-      todo={[
-        "«5 признаков, что вам нужен mindfulness (и нет, это не эзотерика)»",
-        "«Как медитировать, если мысли скачут: алгоритм для занятых»",
-        "«Осознанность для руководителей: кейс снижения выгорания в команде»",
-        "«Почему офлайн-курс в Краснодаре эффективнее онлайна для новичков»",
-        "Выбор CMS для загрузки статей — решается на этапе технологий",
-      ]}
-    />
-  );
+  const { eyebrow, title, lede, todo } = useContent<SimplePageContent>("page.simple.blog");
+  return <Page eyebrow={eyebrow} title={<RichText text={title} />} lede={lede} todo={todo} />;
 }
 
 export function ProductsPage() {
-  return (
-    <Page
-      eyebrow="Магазин"
-      title={
-        <>
-          Курсы, медитации
-          <br />
-          <span className="italic-serif accent">и аудио</span>
-        </>
-      }
-      lede="Цифровые продукты работают по сценарию «оплата на сайте → мгновенный доступ». Одна покупка открывает материалы и на сайте, и в Telegram-боте."
-      todo={[
-        "Курс: программа, уроки, материалы, цена",
-        "Платные медитации: каталог и условия доступа",
-        "Подключение эквайринга и выдачи доступа",
-        "Синхронизация покупок с Telegram-ботом",
-      ]}
-    />
-  );
+  const { eyebrow, title, lede, todo } = useContent<SimplePageContent>("page.simple.products");
+  return <Page eyebrow={eyebrow} title={<RichText text={title} />} lede={lede} todo={todo} />;
 }
 
 export function FreePracticesPage() {
-  return (
-    <Page
-      eyebrow="Бесплатно"
-      title={
-        <>
-          Три практики
-          <br />
-          <span className="italic-serif accent">для начала</span>
-        </>
-      }
-      lede="Короткие вводные практики на внимание — по 3–5 минут. Достаточно, чтобы понять, ваше это или нет, и решить, идти ли дальше."
-      todo={[
-        "Аудиофайлы трёх вводных практик",
-        "Плеер и возможность скачать для офлайна",
-        "Форма подписки, отдающая доступ на email",
-      ]}
-    />
-  );
+  const { eyebrow, title, lede, todo } = useContent<SimplePageContent>("page.simple.freePractices");
+  return <Page eyebrow={eyebrow} title={<RichText text={title} />} lede={lede} todo={todo} />;
 }
 
 export function AccountPage() {
-  return (
-    <Page
-      eyebrow="Личный кабинет"
-      title={
-        <>
-          Ваше пространство
-          <br />
-          <span className="italic-serif accent">практики</span>
-        </>
-      }
-      lede="Мои продукты, доступная библиотека, личный дневник, история консультаций, оплаты и настройки профиля. Единый аккаунт для сайта и Telegram-бота."
-      todo={[
-        "Авторизация и единая система пользователей с ботом",
-        "Раздел «Мои продукты» и выдача доступа",
-        "Личный дневник — приватные заметки по практикам",
-        "История консультаций, оплаты и счета",
-        "Подписи интерфейса и пустые состояния",
-      ]}
-    />
-  );
+  const { eyebrow, title, lede, todo } = useContent<SimplePageContent>("page.simple.account");
+  return <Page eyebrow={eyebrow} title={<RichText text={title} />} lede={lede} todo={todo} />;
 }
 
-export function LegalPage({ title, eyebrow }: { title: string; eyebrow: string }) {
-  return (
-    <Page
-      eyebrow={eyebrow}
-      title={title}
-      lede="Документ готовится. Он обязателен: на сайте планируется приём оплаты и хранение личных данных, включая дневник практик."
-      todo={[
-        "Текст документа от юриста",
-        "Реквизиты и данные исполнителя",
-        "Порядок возврата и условия оказания услуг",
-      ]}
-    />
-  );
+/** Общий текст (lede/todo) один на все три документа, заголовок и надпись — свои. */
+export function LegalPage({ variant }: { variant: "offer" | "privacy" | "consent" }) {
+  const { sharedLede, sharedTodo, ...blocks } = useContent<LegalContent>("page.simple.legal");
+  const { eyebrow, title } = blocks[variant];
+  return <Page eyebrow={eyebrow} title={title} lede={sharedLede} todo={sharedTodo} />;
 }
 
 export function NotFoundPage() {
-  return (
-    <Page
-      eyebrow="404"
-      title={
-        <>
-          Здесь <span className="italic-serif accent">пусто</span>
-        </>
-      }
-      lede="Страница не нашлась. Возможно, она ещё в работе — или адрес изменился. Вернитесь на главную и выберите направление."
-    />
-  );
+  const { eyebrow, title, lede } = useContent<SimplePageContent>("page.simple.notFound");
+  return <Page eyebrow={eyebrow} title={<RichText text={title} />} lede={lede} />;
 }

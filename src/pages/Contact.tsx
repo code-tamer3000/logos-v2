@@ -1,15 +1,42 @@
 import { useState } from "react";
 import { useReveal } from "../hooks/useReveal";
 import { Button } from "../components/Button";
+import { useContent } from "../content/ContentProvider";
+import { RichText } from "../content/RichText";
 import "./Contact.css";
 
-const CHANNELS = [
-  { label: "Telegram", value: "@logos", href: "https://t.me/" },
-  { label: "WhatsApp", value: "+7 000 000-00-00", href: "https://wa.me/" },
-  { label: "Почта", value: "hello@logos.ru", href: "mailto:hello@logos.ru" },
-];
+type ContactContent = {
+  eyebrow: string;
+  title: string;
+  lede: string;
+  nameLabel: string;
+  contactLabel: string;
+  messageLabel: string;
+  consentLabel: string;
+  submitLabel: string;
+  submitDoneLabel: string;
+  successMessage: string;
+  sideTitle: string;
+  sideNote: string;
+  channels: { label: string; value: string; href: string }[];
+};
 
 export default function Contact() {
+  const {
+    eyebrow,
+    title,
+    lede,
+    nameLabel,
+    contactLabel,
+    messageLabel,
+    consentLabel,
+    submitLabel,
+    submitDoneLabel,
+    successMessage,
+    sideTitle,
+    sideNote,
+    channels: CHANNELS,
+  } = useContent<ContactContent>("page.contact");
   useReveal();
   const [sent, setSent] = useState(false);
 
@@ -18,14 +45,11 @@ export default function Contact() {
       <section className="pageHead">
         <div className="pageHead__glow" aria-hidden="true" />
         <div className="shell pageHead__inner">
-          <p className="eyebrow eyebrow--plain">Контакты</p>
+          <p className="eyebrow eyebrow--plain">{eyebrow}</p>
           <h1 className="display pageHead__title">
-            Начнём с <span className="italic-serif accent">разговора</span>
+            <RichText text={title} />
           </h1>
-          <p className="lede measure pageHead__lede">
-            Напишите пару слов о запросе — что происходит и чего хочется. Я отвечу и предложу
-            формат, который подойдёт именно вам. Или сразу скажу, если это не моя история.
-          </p>
+          <p className="lede measure pageHead__lede">{lede}</p>
         </div>
       </section>
 
@@ -40,37 +64,34 @@ export default function Contact() {
             }}
           >
             <label className="field">
-              <span className="field__label">Как вас зовут</span>
+              <span className="field__label">{nameLabel}</span>
               <input className="field__input" type="text" name="name" required />
             </label>
 
             <label className="field">
-              <span className="field__label">Email или телефон</span>
+              <span className="field__label">{contactLabel}</span>
               <input className="field__input" type="text" name="contact" required />
             </label>
 
             <label className="field">
-              <span className="field__label">Что привело</span>
+              <span className="field__label">{messageLabel}</span>
               <textarea className="field__input" name="message" rows={5} required />
             </label>
 
             <label className="consent">
               <input type="checkbox" required />
-              <span>
-                Согласен на обработку персональных данных в соответствии с политикой
-                конфиденциальности
-              </span>
+              <span>{consentLabel}</span>
             </label>
 
             <div style={{ marginTop: "0.5rem" }}>
-              <Button>{sent ? "Заявка отправлена" : "Отправить заявку"}</Button>
+              <Button>{sent ? submitDoneLabel : submitLabel}</Button>
             </div>
 
-            {sent && <p className="contact__ok">Спасибо. Я свяжусь с вами в течение пары дней.</p>}
+            {sent && <p className="contact__ok">{successMessage}</p>}
           </form>
 
           <aside className="contact__side reveal" style={{ "--reveal-delay": "120ms" } as React.CSSProperties}>
-            <h2 className="h3">Или напрямую</h2>
+            <h2 className="h3">{sideTitle}</h2>
             <ul className="contact__channels">
               {CHANNELS.map((c) => (
                 <li key={c.label}>
@@ -82,7 +103,7 @@ export default function Contact() {
               ))}
             </ul>
             <p className="lede" style={{ marginTop: "2.5rem", fontSize: "0.875rem" }}>
-              Живые занятия проходят в Краснодаре. Онлайн — из любой точки мира.
+              {sideNote}
             </p>
           </aside>
         </div>

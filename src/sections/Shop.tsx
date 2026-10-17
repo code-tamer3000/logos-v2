@@ -1,23 +1,33 @@
 import { Link } from "react-router-dom";
-import { products } from "../data/home";
+import { useContent } from "../content/ContentProvider";
+
+// Маршрут каждой карточки не редактируется через админку, сопоставляется по индексу.
+const ROUTES = ["/practices", "/practices", "/practices"];
+
+type ShopContent = {
+  eyebrow: string;
+  title: string;
+  lede: string;
+  linkLabel: string;
+  items: { title: string; lede: string; price: string; status: string }[];
+};
 
 export function Shop() {
+  const { eyebrow, title, lede, linkLabel, items } = useContent<ShopContent>("home.shop");
+
   return (
     <section className="section section--hairline">
       <div className="shell">
         <div className="sec__head">
           <div>
-            <p className="eyebrow">Магазин</p>
-            <h2 className="h2 sec__title">Продукты и форматы</h2>
+            <p className="eyebrow">{eyebrow}</p>
+            <h2 className="h2 sec__title">{title}</h2>
           </div>
-          <p className="lede measure-tight">
-            Цифровые продукты открываются сразу после оплаты. Индивидуальная работа — только после
-            разговора: сначала понимаем, подходим ли друг другу.
-          </p>
+          <p className="lede measure-tight">{lede}</p>
         </div>
 
         <div className="shop">
-          {products.map((p, i) => (
+          {items.map((p, i) => (
             <article
               key={p.title}
               className="card reveal"
@@ -28,8 +38,8 @@ export function Shop() {
               <p className="shopCard__lede">{p.lede}</p>
               <div className="shopCard__foot">
                 <span className="shopCard__price">{p.price}</span>
-                <Link to={p.to} className="shopCard__link">
-                  Подробнее
+                <Link to={ROUTES[i]} className="shopCard__link">
+                  {linkLabel}
                 </Link>
               </div>
             </article>

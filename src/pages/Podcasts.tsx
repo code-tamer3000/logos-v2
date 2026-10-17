@@ -2,12 +2,43 @@ import { useState } from "react";
 import { useReveal } from "../hooks/useReveal";
 import { Button } from "../components/Button";
 import { MavePlayer } from "../components/MavePlayer";
-import { MAVE_PODCAST, PODCAST, PLATFORMS, episodes } from "../data/podcasts";
+import { MAVE_PODCAST, episodes } from "../data/podcasts";
+import { useContent } from "../content/ContentProvider";
+import { RichText } from "../content/RichText";
 import "./Podcasts.css";
 
 const STEP = 8;
 
+type PodcastsPageContent = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  latestBadge: string;
+  archiveEyebrow: string;
+  archiveTitle: string;
+  loadMoreLabel: string;
+  platformsEyebrow: string;
+  platformsTitle: string;
+  platformsLede: string;
+  suggestTopicLabel: string;
+  platforms: { label: string; href: string }[];
+};
+
 export default function Podcasts() {
+  const {
+    eyebrow,
+    title,
+    description,
+    latestBadge,
+    archiveEyebrow,
+    archiveTitle,
+    loadMoreLabel,
+    platformsEyebrow,
+    platformsTitle,
+    platformsLede,
+    suggestTopicLabel,
+    platforms: PLATFORMS,
+  } = useContent<PodcastsPageContent>("page.podcasts");
   useReveal([]);
   const [shown, setShown] = useState(STEP);
   const [latest, ...rest] = episodes;
@@ -18,13 +49,11 @@ export default function Podcasts() {
       <section className="pageHead">
         <div className="pageHead__glow" aria-hidden="true" />
         <div className="shell pageHead__inner">
-          <p className="eyebrow eyebrow--plain">Подкаст</p>
+          <p className="eyebrow eyebrow--plain">{eyebrow}</p>
           <h1 className="display pageHead__title">
-            О духовном
-            <br />
-            <span className="italic-serif accent">субъективно</span>
+            <RichText text={title} />
           </h1>
-          <p className="lede measure pageHead__lede">{PODCAST.description}</p>
+          <p className="lede measure pageHead__lede">{description}</p>
           <p className="pageHead__count">
             {episodes.length} выпуск{episodes.length % 10 === 1 ? "" : "ов"} · слушать здесь или на
             любой платформе
@@ -37,7 +66,7 @@ export default function Podcasts() {
         <div className="shell">
           <div className="latest reveal">
             <div className="latest__head">
-              <span className="latest__badge">Свежий выпуск</span>
+              <span className="latest__badge">{latestBadge}</span>
               <h2 className="h3 latest__title">{latest.title}</h2>
               <p className="latest__meta">
                 Выпуск {latest.episode} · {latest.date} · {latest.duration}
@@ -60,8 +89,8 @@ export default function Podcasts() {
         <div className="shell">
           <div className="sec__head sec__head--stack">
             <div>
-              <p className="eyebrow">Архив</p>
-              <h2 className="h2 sec__title">Все выпуски</h2>
+              <p className="eyebrow">{archiveEyebrow}</p>
+              <h2 className="h2 sec__title">{archiveTitle}</h2>
             </div>
           </div>
 
@@ -85,7 +114,7 @@ export default function Podcasts() {
           {shown < rest.length && (
             <div style={{ marginTop: "2.5rem" }}>
               <Button variant="ghost" onClick={() => setShown((v) => v + STEP)}>
-                Показать ещё ({rest.length - shown})
+                {loadMoreLabel} ({rest.length - shown})
               </Button>
             </div>
           )}
@@ -97,13 +126,10 @@ export default function Podcasts() {
         <div className="shell">
           <div className="sec__head">
             <div>
-              <p className="eyebrow">Слушать</p>
-              <h2 className="h2 sec__title">Где удобно</h2>
+              <p className="eyebrow">{platformsEyebrow}</p>
+              <h2 className="h2 sec__title">{platformsTitle}</h2>
             </div>
-            <p className="lede measure-tight">
-              Подкаст расходится по всем площадкам. Подпишитесь там, где слушаете обычно — новые
-              выпуски придут сами.
-            </p>
+            <p className="lede measure-tight">{platformsLede}</p>
           </div>
 
           <div className="platforms">
@@ -133,7 +159,7 @@ export default function Podcasts() {
 
           <div style={{ marginTop: "3rem" }}>
             <Button to="/contact" variant="quiet">
-              Предложить тему выпуска
+              {suggestTopicLabel}
             </Button>
           </div>
         </div>

@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import { useReveal } from "../hooks/useReveal";
 import { Placeholder } from "../components/Placeholder";
 import { Button } from "../components/Button";
+import { useContent } from "../content/ContentProvider";
+import { ImageSlot } from "../content/ImageSlot";
 import "./Page.css";
 
 type Props = {
@@ -13,8 +15,18 @@ type Props = {
   children?: ReactNode;
 };
 
+type GenericInProgressContent = {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  ctaLabel: string;
+  placeholderLabel: string;
+  placeholderImage?: string;
+};
+
 /** Общий каркас внутренних страниц. Наполнение — по мере готовности текстов. */
 export function Page({ eyebrow, title, lede, todo, children }: Props) {
+  const inProgress = useContent<GenericInProgressContent>("page.genericInProgress");
   useReveal([title]);
 
   return (
@@ -34,10 +46,10 @@ export function Page({ eyebrow, title, lede, todo, children }: Props) {
         <section className="section section--hairline">
           <div className="shell pageTodo">
             <div className="reveal">
-              <p className="eyebrow">В работе</p>
-              <h2 className="h2 sec__title">Раздел наполняется</h2>
+              <p className="eyebrow">{inProgress.eyebrow}</p>
+              <h2 className="h2 sec__title">{inProgress.title}</h2>
               <p className="lede measure" style={{ marginTop: "1.5rem" }}>
-                Структура готова — ждём финальные тексты и материалы. Что предстоит собрать:
+                {inProgress.intro}
               </p>
               <ul className="pageTodo__list">
                 {todo.map((t) => (
@@ -46,13 +58,17 @@ export function Page({ eyebrow, title, lede, todo, children }: Props) {
               </ul>
               <div style={{ marginTop: "2.5rem" }}>
                 <Button to="/contact" variant="ghost">
-                  Написать мне
+                  {inProgress.ctaLabel}
                 </Button>
               </div>
             </div>
 
             <div className="reveal" style={{ "--reveal-delay": "120ms" } as React.CSSProperties}>
-              <Placeholder label="Иллюстрация раздела" ratio="1 / 1" />
+              <ImageSlot
+                src={inProgress.placeholderImage}
+                alt={inProgress.placeholderLabel}
+                fallback={<Placeholder label={inProgress.placeholderLabel} ratio="1 / 1" />}
+              />
             </div>
           </div>
         </section>

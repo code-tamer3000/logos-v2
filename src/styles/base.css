@@ -40,6 +40,10 @@ p {
   margin: 0;
 }
 
+.richtext p + p {
+  margin-top: 1.5rem;
+}
+
 a {
   color: inherit;
   text-decoration: none;

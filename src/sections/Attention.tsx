@@ -1,39 +1,63 @@
 import { Button } from "../components/Button";
-import { effects } from "../data/home";
+import { useContent } from "../content/ContentProvider";
+import { RichText } from "../content/RichText";
+
+type AttentionContent = {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  effectsHeading: string;
+  effectsNote: string;
+  ctaLabel: string;
+  botEyebrow: string;
+  botTitle: string;
+  botText: string;
+  botList: string[];
+  botCtaLabel: string;
+};
 
 export function Attention() {
+  const {
+    eyebrow,
+    title,
+    intro,
+    effectsHeading,
+    effectsNote,
+    ctaLabel,
+    botEyebrow,
+    botTitle,
+    botText,
+    botList,
+    botCtaLabel,
+  } = useContent<AttentionContent>("home.attention");
+  const { items: effects } = useContent<{ items: string[] }>("shared.effects");
+
   return (
     <section className="section section--hairline attn">
       <div className="shell">
         <div className="sec__head">
           <div>
-            <p className="eyebrow">Практики на внимание</p>
+            <p className="eyebrow">{eyebrow}</p>
             <h2 className="h2 sec__title">
-              Внимание — это мышца.
-              <br />
-              <span className="italic-serif accent">Её можно тренировать</span>
+              <RichText text={title} />
             </h2>
           </div>
-          <p className="lede measure-tight">
-            Около 50% времени бодрствования человек проводит в непроизвольных отвлечениях. Усталость
-            приходит не от тела, а от ума, который без остановки мечется, разрывая фокус.
-          </p>
+          <p className="lede measure-tight">{intro}</p>
         </div>
 
         <div className="attn__grid">
           <div className="reveal">
-            <h3 className="h3">Что происходит при регулярной практике</h3>
+            <h3 className="h3">{effectsHeading}</h3>
             <ul className="attn__effects">
               {effects.map((e) => (
                 <li key={e}>{e}</li>
               ))}
             </ul>
             <p className="lede" style={{ marginTop: "1.75rem", fontSize: "0.875rem" }}>
-              Чтобы почувствовать эффект, нужно заниматься не меньше 10 минут в день в течение
-              нескольких месяцев.
+              {effectsNote}
             </p>
             <div style={{ marginTop: "2.25rem" }}>
-              <Button to="/practices">Смотреть практики</Button>
+              <Button to="/practices">{ctaLabel}</Button>
             </div>
           </div>
 
@@ -41,20 +65,17 @@ export function Attention() {
             className="card attn__bot reveal"
             style={{ "--reveal-delay": "140ms" } as React.CSSProperties}
           >
-            <p className="eyebrow eyebrow--plain">Telegram-бот</p>
-            <h3 className="attn__botTitle">Практика приходит к вам сама</h3>
-            <p className="attn__botText">
-              Бот ведёт по программе: напоминает, отдаёт аудио, задаёт вопросы о состоянии и держит
-              ритм. Одна покупка открывает доступ сразу и на сайте, и в боте — прогресс общий.
-            </p>
+            <p className="eyebrow eyebrow--plain">{botEyebrow}</p>
+            <h3 className="attn__botTitle">{botTitle}</h3>
+            <p className="attn__botText">{botText}</p>
             <ul className="attn__effects" style={{ marginTop: "1.5rem" }}>
-              <li>Ежедневные короткие практики по 3–5 минут</li>
-              <li>Опросник состояния и подбор направления</li>
-              <li>Бесплатный вводный блок без оплаты</li>
+              {botList.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
             </ul>
             <div className="attn__botCta">
               <Button href="https://t.me/" variant="ghost">
-                Открыть бота
+                {botCtaLabel}
               </Button>
             </div>
           </aside>

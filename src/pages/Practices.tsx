@@ -2,12 +2,77 @@ import { useReveal } from "../hooks/useReveal";
 import { Button } from "../components/Button";
 import { Placeholder } from "../components/Placeholder";
 import { Faq } from "../components/Faq";
-import { effects } from "../data/home";
-import { symptoms, audience, weeks, formats, faq } from "../data/practices";
+import { useContent } from "../content/ContentProvider";
+import { RichText } from "../content/RichText";
+import { ImageSlot } from "../content/ImageSlot";
 import "./Practices.css";
+
+type PracticesContent = {
+  hero: {
+    eyebrow: string;
+    title: string;
+    lede: string;
+    ctaPrimaryLabel: string;
+    ctaSecondaryLabel: string;
+  };
+  groupPhotoImage?: string;
+  groupPhotoNote: string;
+  problem: { eyebrow: string; title: string; intro: string; symptoms: string[] };
+  insight: { eyebrow: string; title: string; body: string };
+  quote: { text: string };
+  solution: { eyebrow: string; title: string; body: string };
+  resultsEyebrow: string;
+  resultsTitle: string;
+  audience: { eyebrow: string; title: string; intro: string; items: { who: string; why: string }[] };
+  program: { eyebrow: string; title: string; weeks: { n: string; title: string; note: string }[] };
+  formats: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    ctaLabel: string;
+    items: {
+      status: string;
+      title: string;
+      lede: string;
+      tiers: { name: string; price: string }[];
+    }[];
+  };
+  author: {
+    photoImage?: string;
+    photoNote: string;
+    eyebrow: string;
+    title: string;
+    creds: { title: string; note: string }[];
+    quote: string;
+  };
+  faqEyebrow: string;
+  faqTitle: string;
+  faq: { q: string; a: string }[];
+  finalCta: { title: string; lede: string; ctaPrimaryLabel: string; ctaSecondaryLabel: string };
+};
 
 export default function Practices() {
   useReveal();
+  const {
+    hero,
+    groupPhotoImage,
+    groupPhotoNote,
+    problem,
+    insight,
+    quote,
+    solution,
+    resultsEyebrow,
+    resultsTitle,
+    audience,
+    program,
+    formats,
+    author,
+    faqEyebrow,
+    faqTitle,
+    faq,
+    finalCta,
+  } = useContent<PracticesContent>("page.practices");
+  const { items: effects } = useContent<{ items: string[] }>("shared.effects");
 
   return (
     <>
@@ -15,20 +80,15 @@ export default function Practices() {
       <section className="pageHead">
         <div className="pageHead__glow" aria-hidden="true" />
         <div className="shell pageHead__inner">
-          <p className="eyebrow eyebrow--plain">Практики на внимание</p>
+          <p className="eyebrow eyebrow--plain">{hero.eyebrow}</p>
           <h1 className="display pageHead__title">
-            Верните себе способность
-            <br />
-            <span className="italic-serif accent">концентрироваться</span>
+            <RichText text={hero.title} />
           </h1>
-          <p className="lede measure pageHead__lede">
-            Живая осознанность: практики для ума и бизнеса. Онлайн и офлайн в Краснодаре — для тех,
-            кто устал от стресса и хочет управлять вниманием. 8 недель, 10 минут в день.
-          </p>
+          <p className="lede measure pageHead__lede">{hero.lede}</p>
           <div className="hero__cta" style={{ animation: "none", marginTop: "2.5rem" }}>
-            <Button to="/contact">Записаться</Button>
+            <Button to="/contact">{hero.ctaPrimaryLabel}</Button>
             <Button to="/practices/free" variant="ghost">
-              Первое занятие бесплатно
+              {hero.ctaSecondaryLabel}
             </Button>
           </div>
         </div>
@@ -36,10 +96,10 @@ export default function Practices() {
 
       <section className="section">
         <div className="shell reveal">
-          <Placeholder
-            label="Групповое живое занятие"
-            note="Люди медитируют, тёплый свет, широкий кадр"
-            ratio="21 / 9"
+          <ImageSlot
+            src={groupPhotoImage}
+            alt="Групповое живое занятие"
+            fallback={<Placeholder label="Групповое живое занятие" note={groupPhotoNote} ratio="21 / 9" />}
           />
         </div>
       </section>
@@ -49,21 +109,16 @@ export default function Practices() {
         <div className="shell">
           <div className="sec__head">
             <div>
-              <p className="eyebrow">Знакомо?</p>
+              <p className="eyebrow">{problem.eyebrow}</p>
               <h2 className="h2 sec__title">
-                День пролетел,
-                <br />а вы словно не жили его
+                <RichText text={problem.title} />
               </h2>
             </div>
-            <p className="lede measure-tight">
-              Только хаотично переключались между делами, новостями, тревогами и мессенджерами. Мы
-              привыкли жаловаться на усталость, но редко думаем: может, мы разучились управлять
-              своим вниманием?
-            </p>
+            <p className="lede measure-tight">{problem.intro}</p>
           </div>
 
           <ul className="symptoms">
-            {symptoms.map((s, i) => (
+            {problem.symptoms.map((s, i) => (
               <li
                 key={s}
                 className="reveal"
@@ -83,25 +138,11 @@ export default function Practices() {
       <section className="section section--hairline">
         <div className="shell insight">
           <div className="reveal">
-            <p className="eyebrow">Почему это происходит</p>
-            <h2 className="h2 sec__title">Внимание — не бесконечный ресурс</h2>
+            <p className="eyebrow">{insight.eyebrow}</p>
+            <h2 className="h2 sec__title">{insight.title}</h2>
           </div>
           <div className="reveal" style={{ "--reveal-delay": "120ms" } as React.CSSProperties}>
-            <p className="lede">
-              Каждый день мы тратим его на тревожные мысли о прошлом и будущем, бесполезные
-              уведомления, мысленные споры и бесконечное переключение задач, которое съедает больше
-              энергии, чем сама работа.
-            </p>
-            <p className="lede" style={{ marginTop: "1.5rem" }}>
-              Мозг расходует бо́льшую часть энергии на ментальную деятельность. Чем больше хаоса во
-              внимании, тем сильнее опустошение. В конце дня мы чувствуем себя выжатыми — хотя
-              физически ничего не делали.
-            </p>
-            <p className="lede" style={{ marginTop: "1.5rem" }}>
-              Это и есть бедность внимания: вы постоянно фокусируетесь на внешнем шуме, но почти
-              никогда — на том, что действительно важно. Самое неприятное — мы перестаём замечать
-              потерю.
-            </p>
+            <RichText text={insight.body} paragraphClassName="lede" />
           </div>
         </div>
       </section>
@@ -112,9 +153,7 @@ export default function Practices() {
         <div className="shell">
           <blockquote className="reveal">
             <p className="quote__text italic-serif">
-              Внимание — это мышца.
-              <br />
-              <span className="accent">Её можно тренировать</span>
+              <RichText text={quote.text} />
             </p>
           </blockquote>
         </div>
@@ -124,20 +163,11 @@ export default function Practices() {
       <section className="section section--hairline">
         <div className="shell insight">
           <div className="reveal">
-            <p className="eyebrow">Решение</p>
-            <h2 className="h2 sec__title">Майндфулнес</h2>
+            <p className="eyebrow">{solution.eyebrow}</p>
+            <h2 className="h2 sec__title">{solution.title}</h2>
           </div>
           <div className="reveal" style={{ "--reveal-delay": "120ms" } as React.CSSProperties}>
-            <p className="lede">
-              Древние буддийские практики не только изучают природу внимания, но и предлагают
-              инструменты для его развития. В западном обществе они получили название mindfulness —
-              тот же навык, очищенный от религиозного контекста и упакованный в понятные техники.
-            </p>
-            <p className="lede" style={{ marginTop: "1.5rem" }}>
-              Его изучают в университетах, применяют в психотерапии, учат в корпорациях и школах.
-              Постепенно мы возвращаем фокус себе, успокаиваем ментальный шум и сохраняем
-              психическую энергию, которая больше не расплёскивается по сторонам.
-            </p>
+            <RichText text={solution.body} paragraphClassName="lede" />
           </div>
         </div>
       </section>
@@ -147,8 +177,8 @@ export default function Practices() {
         <div className="shell">
           <div className="sec__head sec__head--stack">
             <div>
-              <p className="eyebrow">Результат</p>
-              <h2 className="h2 sec__title">Что происходит при регулярной практике</h2>
+              <p className="eyebrow">{resultsEyebrow}</p>
+              <h2 className="h2 sec__title">{resultsTitle}</h2>
             </div>
           </div>
           <ul className="attn__effects" style={{ marginTop: 0 }}>
@@ -164,16 +194,13 @@ export default function Practices() {
         <div className="shell">
           <div className="sec__head">
             <div>
-              <p className="eyebrow">Кому подходит</p>
-              <h2 className="h2 sec__title">Найдите себя</h2>
+              <p className="eyebrow">{audience.eyebrow}</p>
+              <h2 className="h2 sec__title">{audience.title}</h2>
             </div>
-            <p className="lede measure-tight">
-              Присоединиться может любой желающий, независимо от религии и мировоззрения. Практики
-              светские и подходят всем.
-            </p>
+            <p className="lede measure-tight">{audience.intro}</p>
           </div>
           <div className="shop">
-            {audience.map((a, i) => (
+            {audience.items.map((a, i) => (
               <article
                 key={a.who}
                 className="card reveal"
@@ -194,15 +221,14 @@ export default function Practices() {
         <div className="shell">
           <div className="sec__head">
             <div>
-              <p className="eyebrow">Программа</p>
+              <p className="eyebrow">{program.eyebrow}</p>
               <h2 className="h2 sec__title">
-                8 недель — от хаоса
-                <br />к управляемому вниманию
+                <RichText text={program.title} />
               </h2>
             </div>
           </div>
           <ol className="weeks">
-            {weeks.map((w, i) => (
+            {program.weeks.map((w, i) => (
               <li
                 key={w.n}
                 className="week reveal"
@@ -222,17 +248,14 @@ export default function Practices() {
         <div className="shell">
           <div className="sec__head">
             <div>
-              <p className="eyebrow">Форматы и цены</p>
-              <h2 className="h2 sec__title">Как заниматься</h2>
+              <p className="eyebrow">{formats.eyebrow}</p>
+              <h2 className="h2 sec__title">{formats.title}</h2>
             </div>
-            <p className="lede measure-tight">
-              Запись — через форму или мессенджер. Сначала бесплатная консультация 20 минут: поймём,
-              какой формат вам подходит.
-            </p>
+            <p className="lede measure-tight">{formats.intro}</p>
           </div>
 
           <div className="formats">
-            {formats.map((f, i) => (
+            {formats.items.map((f, i) => (
               <article
                 key={f.title}
                 className="card reveal"
@@ -251,7 +274,7 @@ export default function Practices() {
                 </ul>
                 <div style={{ marginTop: "2rem" }}>
                   <Button to="/contact" variant="ghost">
-                    Записаться
+                    {formats.ctaLabel}
                   </Button>
                 </div>
               </article>
@@ -264,25 +287,25 @@ export default function Practices() {
       <section className="section section--hairline">
         <div className="shell about__grid">
           <div className="reveal">
-            <Placeholder label="Фото ведущего" note="С занятия или студийный портрет" ratio="4 / 5" />
+            <ImageSlot
+              src={author.photoImage}
+              alt="Фото ведущего"
+              fallback={<Placeholder label="Фото ведущего" note={author.photoNote} ratio="4 / 5" />}
+            />
           </div>
           <div className="reveal" style={{ "--reveal-delay": "120ms" } as React.CSSProperties}>
-            <p className="eyebrow">Автор и ведущий</p>
-            <h2 className="h2 sec__title">Константин Логос</h2>
+            <p className="eyebrow">{author.eyebrow}</p>
+            <h2 className="h2 sec__title">{author.title}</h2>
             <ul className="about__creds">
-              <li>
-                <strong>Трансперсональный психолог</strong>Московский институт психоанализа
-              </li>
-              <li>
-                <strong>Автор системы целостного развития человека</strong>Предприниматель с 2015
-                года
-              </li>
-              <li>
-                <strong>Преподаватель практик осознанности</strong>Личный опыт медитации — 5 лет
-              </li>
+              {author.creds.map((c) => (
+                <li key={c.title}>
+                  <strong>{c.title}</strong>
+                  {c.note}
+                </li>
+              ))}
             </ul>
             <p className="lede italic-serif" style={{ fontSize: "1.35rem" }}>
-              «Я не учу верить, я даю инструменты, которые работают независимо от мировоззрения»
+              {author.quote}
             </p>
           </div>
         </div>
@@ -293,8 +316,8 @@ export default function Practices() {
         <div className="shell">
           <div className="sec__head sec__head--stack">
             <div>
-              <p className="eyebrow">Вопросы</p>
-              <h2 className="h2 sec__title">Частые вопросы</h2>
+              <p className="eyebrow">{faqEyebrow}</p>
+              <h2 className="h2 sec__title">{faqTitle}</h2>
             </div>
           </div>
           <Faq items={faq} />
@@ -306,17 +329,13 @@ export default function Practices() {
         <div className="final__glow" aria-hidden="true" />
         <div className="shell final__inner">
           <h2 className="h2 final__title reveal">
-            Первое занятие —<br />
-            <span className="italic-serif accent">бесплатно</span>
+            <RichText text={finalCta.title} />
           </h2>
-          <p className="lede final__lede reveal">
-            Вы получите не конспект, а реальный навык, который останется с вами после занятий.
-            Начните сегодня.
-          </p>
+          <p className="lede final__lede reveal">{finalCta.lede}</p>
           <div className="final__cta reveal">
-            <Button to="/contact">Записаться на пробную встречу</Button>
+            <Button to="/contact">{finalCta.ctaPrimaryLabel}</Button>
             <Button href="https://t.me/" variant="ghost">
-              Открыть Telegram-бота
+              {finalCta.ctaSecondaryLabel}
             </Button>
           </div>
         </div>

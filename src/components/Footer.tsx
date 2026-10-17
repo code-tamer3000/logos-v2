@@ -1,42 +1,19 @@
 import { Link } from "react-router-dom";
+import { useContent } from "../content/ContentProvider";
 import "./Footer.css";
 
-const COLUMNS = [
-  {
-    title: "Разделы",
-    links: [
-      { to: "/about", label: "Обо мне" },
-      { to: "/mentoring", label: "Наставничество" },
-      { to: "/practices", label: "Практики на внимание" },
-      { to: "/products", label: "Магазин" },
-    ],
-  },
-  {
-    title: "Материалы",
-    links: [
-      { to: "/library", label: "Библиотека знаний" },
-      { to: "/blog", label: "Блог" },
-      { to: "/podcasts", label: "Подкасты" },
-      { to: "/practices/free", label: "Бесплатные практики" },
-    ],
-  },
-  {
-    title: "Документы",
-    links: [
-      { to: "/offer", label: "Публичная оферта" },
-      { to: "/privacy", label: "Политика конфиденциальности" },
-      { to: "/consent", label: "Согласие на обработку ПД" },
-    ],
-  },
-];
-
-const SOCIAL = [
-  { href: "https://t.me/", label: "Telegram" },
-  { href: "https://youtube.com/", label: "YouTube" },
-  { href: "https://vk.com/", label: "ВКонтакте" },
-];
+type FooterContent = {
+  claim: string;
+  authorName: string;
+  contactLabel: string;
+  columns: { title: string; links: { to: string; label: string }[] }[];
+  social: { href: string; label: string }[];
+};
 
 export function Footer() {
+  const { claim, authorName, contactLabel, columns: COLUMNS, social: SOCIAL } =
+    useContent<FooterContent>("footer");
+
   return (
     <footer className="ftr">
       <div className="ftr__horizon" aria-hidden="true" />
@@ -51,7 +28,7 @@ export function Footer() {
             </svg>
             <span className="ftr__word">Логос</span>
           </Link>
-          <p className="ftr__claim italic-serif">Изучаю сознание — передаю карту.</p>
+          <p className="ftr__claim italic-serif">{claim}</p>
           <ul className="ftr__social">
             {SOCIAL.map((s) => (
               <li key={s.label}>
@@ -80,9 +57,11 @@ export function Footer() {
       </div>
 
       <div className="shell ftr__base">
-        <span>© {new Date().getFullYear()} Константин Логос</span>
+        <span>
+          © {new Date().getFullYear()} {authorName}
+        </span>
         <Link to="/contact" className="ftr__contact">
-          Написать мне
+          {contactLabel}
         </Link>
       </div>
     </footer>

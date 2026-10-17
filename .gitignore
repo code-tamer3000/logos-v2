@@ -19,6 +19,18 @@ bot/**/__pycache__
 bot/*.db
 bot/.env
 
+# Деплой-документация с секретами (root-пароль, JWT, пароль админки)
+docs/DEPLOYMENT.md
+
+# Server (админка)
+.env
+server/data.sqlite
+server/data.sqlite-journal
+server/data.sqlite-wal
+server/data.sqlite-shm
+server/uploads/*
+!server/uploads/.gitkeep
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
